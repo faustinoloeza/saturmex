@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/Home.dart';
 import 'package:untitled/Platform.dart';
+import 'package:location/location.dart';
 
 void test() async {
   print("Hola mundo");
@@ -25,23 +26,33 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: TabBarDemo(),
+      home: HomeScreen(),
       //const MyHomePage(title: 'SATURMEX'),
     );
   }
 }
 
 void myLog() async{
-  print("Este es mi log");
+  Location location = new Location();
+
+  bool _serviceEnabled;
+  PermissionStatus _permissionGranted;
+  LocationData _locationData;
+
+  _locationData = await location.getLocation();
+  //return _locationData;
+  print("____________________");
+  print('$_locationData.altitude, $_locationData.longitude');
+  print("OK");
 }
 
 class HomeScreen extends StatelessWidget {
   String AppTitle = "SATURMEX";
   String TextExample = "Hola Mundo Flutter";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Column(
         children: [
           Container(
