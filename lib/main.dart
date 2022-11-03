@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: HomeScreen(),
+      home: TabBarDemo(),
       //const MyHomePage(title: 'SATURMEX'),
     );
   }
