@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:untitled/Home.dart';
 import 'package:untitled/Platform.dart';
 
+void test() async {
+  print("Hola mundo");
+}
+
 void main() {
   runApp(const MyApp());
 }
@@ -12,13 +16,113 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    test();
     return MaterialApp(
       title: 'Flutter Demo',
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: const MyHomePage(title: 'SATURMEX'),
+      home: TabBarDemo(),
+      //const MyHomePage(title: 'SATURMEX'),
+    );
+  }
+}
+
+void myLog() async{
+  print("Este es mi log");
+}
+
+class HomeScreen extends StatelessWidget {
+  String AppTitle = "SATURMEX";
+  String TextExample = "Hola Mundo Flutter";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+      body: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                 Image.network('https://cdn-icons-png.flaticon.com/256/475/475438.png'),
+                const TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Name',
+                  ),
+                ),
+                const TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                  ),
+                ),
+                 Container(
+                   margin: EdgeInsets.all(10),
+                   color: Colors.blueAccent,
+                  child: TextButton(onPressed: () => {myLog()}, child: const Text("Login",style: TextStyle(
+                  color: Colors.white,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FontStyle.italic,
+                      fontFamily: 'Open Sans',
+                      fontSize: 24),
+                  )),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+class FirstScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+            body: Center(
+                child:
+                Text('First Activity Screen',
+                  style: TextStyle(fontSize: 21),)
+            )
+        )
+    );
+  }
+}
+class TabBarDemo extends StatelessWidget {
+  const TabBarDemo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: const TabBar(
+              tabs: [
+                Tab(icon: Icon(Icons.verified_user)),
+                Tab(icon: Icon(Icons.map)),
+                Tab(icon: Icon(Icons.phone)),
+              ],
+            ),
+            title: Center(child: const Text('SATURMEX'),),
+          ),
+          body:  TabBarView(
+            children: [
+              HomeScreen(),
+              FirstScreen(),
+              FirstScreen(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -50,7 +154,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text(widget.title),),
+        title: Center(
+          child: Text(widget.title),
+        ),
       ),
       body: Padding(
           padding: const EdgeInsets.all(10),
@@ -91,7 +197,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   //forgot password screen
                 },
-                child: const Text('Forgot Password',),
+                child: const Text(
+                  'Forgot Password',
+                ),
               ),
               Container(
                   height: 50,
@@ -101,11 +209,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>  Home()),
+                        MaterialPageRoute(builder: (context) => Home()),
                       );
                     },
-                  )
-              ),
+                  )),
               Row(
                 children: <Widget>[
                   const Text('Does not have account?'),
