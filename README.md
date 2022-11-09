@@ -7,7 +7,7 @@ A new Flutter project.
 
 
 
-| ----------- | ----------- |
+
 | ![Alt text](saturmex.png "a title")    | ![Alt text](saturmex_2.png "a title")      |
 | ![Alt text](saturmex_3.png "a title")   | ![Alt text](saturmex_windows.png "a title")        |
 
