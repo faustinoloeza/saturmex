@@ -1,24 +1,11 @@
 # Saturmex
 
 A new Flutter project.
-<<<<<<< HEAD
+
 ![Alt text](saturmex.png "a title")
 ![Alt text](saturmex_2.png "a title")
 ![Alt text](saturmex_3.png "a title")
 ![Alt text](saturmex_windows.png "a title")
-s
-=======
-
-
-
-
-
-
-
-| ----------- | ----------- |
-| ![Alt text](saturmex.png "a title")    | ![Alt text](saturmex_2.png "a title")      |
-| ![Alt text](saturmex_3.png "a title")   | ![Alt text](saturmex_windows.png "a title") |
->>>>>>> 1a314a4e5c9441f7036664831d88060fcba27a0d
 
 ## Getting Started
 
