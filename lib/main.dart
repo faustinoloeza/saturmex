@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:untitled/Home.dart';
 import 'package:untitled/Platform.dart';
 import 'package:location/location.dart';
-
+import 'package:flutter_map/flutter_map.dart'; // Suitable for most situations
+import 'package:flutter_map/plugin_api.dart'; // Only import if required functionality is not exposed by default
+import 'package:latlong2/latlong.dart';
 void test() async {
   print("Hola mundo");
 }
@@ -94,16 +96,35 @@ class HomeScreen extends StatelessWidget {
 class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            body: Center(
-                child:
-                Text('First Activity Screen',
-                  style: TextStyle(fontSize: 21),)
-            )
-        )
-    );
+    return FlutterMap(
+        options: MapOptions(
+          center: LatLng(21.166304, -86.8677313),
+          zoom: 12.2,
+          maxZoom: 18.4,
+        ),
+        nonRotatedChildren: [
+          AttributionWidget.defaultWidget(
+            source: 'OpenStreetMap contributors',
+            onSourceTapped: null,
+          ),
+        ],
+        children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'io.faustinoloeza',
+          ),
+          MarkerLayer(
+            markers: [
+              Marker(
+                point: LatLng(21.166304, -86.8677313),
+                width: 40,
+                height: 40,
+                builder: (context) => FlutterLogo(),
+              ),
+            ],
+          ),
+        ],
+      );
   }
 }
 class TabBarDemo extends StatelessWidget {
@@ -123,7 +144,7 @@ class TabBarDemo extends StatelessWidget {
                 Tab(icon: Icon(Icons.phone)),
               ],
             ),
-            title: Center(child: const Text('SATURMEX'),),
+            title: const Center(child:  Text('SATURMEX'),),
           ),
           body:  TabBarView(
             children: [
