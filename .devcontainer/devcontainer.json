@@ -1,9 +1,0 @@
-{
-	"name": "Flutter",
-	"build": {
-		"dockerfile": "Dockerfile",
-		"args": {
-			"VARIANT": "16-bullseye"
-		}
-	}
-}
