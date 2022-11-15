@@ -10,22 +10,23 @@ tasks:
       flutter build -v linux
       flutter build -v web
   - name: Run project
-    command: |
-      printf "\033[3J\033c\033[3J" && if test ! -e /workspace/.template_init; then {
+    command: >
+      printf "\033[3J\033c\033[3J" && if test ! -e /workspace/.template_init;
+      then {
         printf 'info[gitpod]: %s\n' "Waiting for the flutter build process to complete ..."
         until test -e /workspace/.template_init; do
           sleep 0.5
         done
       } fi
+
       flutter pub get
+
       flutter run
 ports:
   - port: 5900
     onOpen: ignore
-    # vnc
   - port: 6080
     onOpen: open-preview
-    # flutter
   - port: 8080
     onOpen: ignore
   - port: 5037
@@ -34,7 +35,6 @@ ports:
     onOpen: ignore
   - port: 40000-50000
     onOpen: ignore
-
 vscode:
   extensions:
     - dart-code.flutter
