@@ -5,6 +5,11 @@ import 'package:location/location.dart';
 import 'package:flutter_map/flutter_map.dart'; // Suitable for most situations
 import 'package:flutter_map/plugin_api.dart'; // Only import if required functionality is not exposed by default
 import 'package:latlong2/latlong.dart';
+import 'google.dart';
+import 'package:google_polyline_algorithm/google_polyline_algorithm.dart';
+import 'package:location/location.dart';
+import 'package:dio/dio.dart';
+
 void test() async {
   print("Hola mundo");
 }
@@ -19,7 +24,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    test();
+    //test();
     return MaterialApp(
       title: 'Flutter Demo',
       darkTheme: ThemeData.dark(),
@@ -34,8 +39,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
-void myLog() async{
+void myLog() async {
   Location location = new Location();
+  location.enableBackgroundMode(enable: true);
 
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
@@ -61,7 +67,8 @@ class HomeScreen extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: Column(
               children: [
-                 Image.network('https://cdn-icons-png.flaticon.com/256/475/475438.png'),
+                Image.network(
+                    'https://cdn-icons-png.flaticon.com/256/475/475438.png'),
                 const TextField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -74,16 +81,20 @@ class HomeScreen extends StatelessWidget {
                     labelText: 'Password',
                   ),
                 ),
-                 Container(
-                   margin: EdgeInsets.all(10),
-                   color: Colors.blueAccent,
-                  child: TextButton(onPressed: () => {myLog()}, child: const Text("Login",style: TextStyle(
-                  color: Colors.white,
-                      fontWeight: FontWeight.w300,
-                      fontStyle: FontStyle.italic,
-                      fontFamily: 'Open Sans',
-                      fontSize: 24),
-                  )),
+                Container(
+                  margin: EdgeInsets.all(10),
+                  color: Colors.blueAccent,
+                  child: TextButton(
+                      onPressed: () => {myLog()},
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
+                            fontStyle: FontStyle.italic,
+                            fontFamily: 'Open Sans',
+                            fontSize: 24),
+                      )),
                 )
               ],
             ),
@@ -93,10 +104,63 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
 class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FlutterMap(
+    final coords = encodePolyline([
+      [21.130482, -86.914533],
+      [21.173986, -86.826891],
+      [21.173844, -86.826647],
+      [21.171423, -86.826495],
+      [21.170339, -86.826519],
+      [21.169615, -86.826472],
+      [21.168995, -86.826278],
+      [21.164194, -86.825963],
+      [21.163669, -86.826192],
+      [21.163340, -86.826144],
+      [21.163057, -86.825845],
+      [21.157506, -86.825500],
+      [21.156996, -86.825573],
+      [21.156298, -86.825324],
+      [21.150700, -86.824892],
+      [21.150130, -86.824951],
+      [21.145473, -86.824508],
+      [21.143319, -86.824403],
+    ]);
+    print(coords);
+    dynamic polyline = decodePolyline(
+        r'o`~_CxnnqO}nGwbP\o@bN_@vEDnCIzBe@`]_AfBl@`AIv@{@ta@cAdBLjCq@~a@uApBJb\wAlLU')
+        .unpackPolyline();
+    //print(polyline);
+
+    Location location;
+    LocationData _locationData;
+    dynamic response;
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async => {
+          location = new Location(),
+          //location.enableBackgroundMode(enable: true),
+          _locationData = await location.getLocation(),
+          //return _locationData;
+          print("____________________"),
+          print('$_locationData.altitude, $_locationData.longitude'),
+          print("OK"),
+          /*response = await Dio().request(
+            'http://172.16.51.23:5000/savepoint',
+            data: {
+              'Latitud': _locationData.altitude,
+              'Longitud': _locationData.longitude,
+              'name': '81'
+            },
+            options: Options(method: 'POST'),
+          ),*/
+        },
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
+      body: FlutterMap(
         options: MapOptions(
           center: LatLng(21.166304, -86.8677313),
           zoom: 12.2,
@@ -123,10 +187,23 @@ class FirstScreen extends StatelessWidget {
               ),
             ],
           ),
+          PolylineLayer(
+            polylineCulling: false,
+            polylines: [
+              Polyline(
+                strokeWidth: 4.5,
+                isDotted: true,
+                points: polyline,
+                color: Colors.blue,
+              ),
+            ],
+          ),
         ],
-      );
+      ),
+    );
   }
 }
+
 class TabBarDemo extends StatelessWidget {
   const TabBarDemo({super.key});
 
@@ -144,9 +221,8 @@ class TabBarDemo extends StatelessWidget {
                 Tab(icon: Icon(Icons.phone)),
               ],
             ),
-            title: const Center(child:  Text('SATURMEX'),),
           ),
-          body:  TabBarView(
+          body: TabBarView(
             children: [
               HomeScreen(),
               FirstScreen(),
