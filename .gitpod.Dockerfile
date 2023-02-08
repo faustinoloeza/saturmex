@@ -1,7 +1,7 @@
-FROM gitpod/workspace-full-vnc:2022-11-09-13-54-49
+FROM gitpod/workspace-full-vnc:2023-01-16-03-31-28
 SHELL ["/bin/bash", "-c"]
 ENV ANDROID_HOME=$HOME/androidsdk \
-    FLUTTER_VERSION=3.3.8-stable \
+    FLUTTER_VERSION=3.7.1-stable \
     QTWEBENGINE_DISABLE_SANDBOX=1
 ENV PATH="$HOME/flutter/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
 
@@ -14,6 +14,12 @@ RUN install-packages openjdk-8-jdk -y \
         fonts-noto \
         fonts-noto-cjk \
     && update-java-alternatives --set java-1.8.0-openjdk-amd64
+    
+#Update google chrome 
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \ 
+    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+RUN apt-get update && apt-get -y install google-chrome-stable
+
 
 # Insall flutter and dependencies
 USER gitpod
